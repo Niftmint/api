@@ -1,2 +1,5 @@
 Flask
+flask-restful
+flask-marshmallow
+web3
 gunicorn
