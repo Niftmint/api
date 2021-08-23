@@ -70,7 +70,7 @@ def token():
     except:
         return jsonify({'exception': 'invalid token ID'}), 400
 
-    return jsonify({'name': name, 'symbol': symbol, 'uri': uri}), 200
+    return jsonify({'name': name, 'symbol': symbol, 'id': id, 'uri': uri}), 200
 
 @app.route('/index')
 @app.route('/')
