@@ -3,6 +3,7 @@ import os
 import json
 from web3 import Web3
 from flask import Response, request, jsonify
+from github import Github
 
 class Niftmint:
     def __init__(self, abi_file, sc_address):
@@ -23,6 +24,9 @@ class Niftmint:
             address=sc_address, 
             abi=niftmint_abi
         )
+
+        github = Github('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')
+        self.repo = github.get_repo("Niftmint/api")
         print('initialized')
 
     def token_name(self):
@@ -39,9 +43,11 @@ class Niftmint:
         id = self.contract.functions.getCurrentId().call()
         return id
 
-    def uri(self, id):
+    def metadata(self, id):
         uri = self.contract.functions.tokenURI(int(id)).call()
-        return uri
+        filename = 'metadata/' + id + '.json'
+        metadata = self.repo.get_contents(filename)
+        return metadata.decoded_content.decode()
 
 @app.route('/mint', methods=['POST'])
 def mint():
@@ -49,11 +55,8 @@ def mint():
     print('account: ', account)
     #uri = request.form['uri']
 
-    # validate inputs
-
     # call smart contract to mint NFT
     id = 23
-
     # return NFT id
     return jsonify({'NFT id': id}), 200
 
@@ -64,13 +67,11 @@ def token():
         return jsonify({'exception': 'token ID required'}), 400
 
     try:
-        uri = niftmint.uri(id)
-        name = niftmint.token_name()
-        symbol = niftmint.token_symbol()
+        content = niftmint.metadata(id)
     except:
         return jsonify({'exception': 'invalid token ID'}), 400
 
-    return jsonify({'name': name, 'symbol': symbol, 'id': id, 'uri': uri}), 200
+    return content, 200
 
 @app.route('/index')
 @app.route('/')
