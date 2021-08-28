@@ -25,7 +25,7 @@ class Niftmint:
             abi=niftmint_abi
         )
 
-        github = Github('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')
+        github = Github('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')
         self.repo = github.get_repo("Niftmint/api")
         print('initialized')
 
@@ -49,28 +49,22 @@ class Niftmint:
         metadata = self.repo.get_contents(filename)
         return metadata.decoded_content.decode()
 
-@app.route('/mint', methods=['POST'])
-def mint():
-    account = request.form['address']
-    print('account: ', account)
-    #uri = request.form['uri']
-
-    # call smart contract to mint NFT
-    id = 23
-    # return NFT id
-    return jsonify({'NFT id': id}), 200
-
 @app.route('/token')
 def token():
     id = request.args.get('id')
     if id is None:
         return jsonify({'exception': 'token ID required'}), 400
+    img = request.args.get('image')
+    print('image: ', img)
 
     try:
         content = niftmint.metadata(id)
     except:
         return jsonify({'exception': 'invalid token ID'}), 400
 
+    if img is not None:
+        c = json.loads(content)
+        return c['image'], 200
     return content, 200
 
 @app.route('/index')
