@@ -25,7 +25,8 @@ class Niftmint:
             abi=niftmint_abi
         )
 
-        github = Github('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')
+        # INSERT GITHUB ACCESS TOKEN
+        github = Github('')
         self.repo = github.get_repo("Niftmint/api")
         print('initialized')
 
