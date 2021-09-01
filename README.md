@@ -14,7 +14,7 @@ To setup a remote to your local repository:
 ## DEPLOY
 To re-deploy to Heroku, use the following git push command to push code from your local repository’s main branch to the heroku remote:
 
-    > git push heroku master
+    > git push heroku main
 
 ## ACCESS
 To connect to the web service:
