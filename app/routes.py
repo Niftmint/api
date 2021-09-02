@@ -61,7 +61,6 @@ def token():
     if id is None:
         return jsonify({'exception': 'token ID required'}), 400
     img = request.args.get('image')
-    print('image: ', img)
 
     try:
         content = niftmint.metadata(id)
