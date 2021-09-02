@@ -28,12 +28,12 @@ class Niftmint:
         # INSERT GITHUB ACCESS TOKEN
         try:
             github = Github('')
+            self.repo = github.get_repo("Niftmint/api")
         except:
-            print('MISSING GITHUB ACCESS TOKEN')
-            return
+            print('\nMISSING GITHUB ACCESS TOKEN\n')
+            exit(1)
 
-        self.repo = github.get_repo("Niftmint/api")
-        print('initialized')
+        print('\ninitialized\n')
 
     def token_name(self):
         if self.name is None:
@@ -102,5 +102,4 @@ def log_after_request(response):
 # :%s/True/true/g
 # save the file
 abi_file = os.path.join(app.root_path, '../abi/niftmint.json')
-print('root path: ', app.root_path)
 niftmint = Niftmint(abi_file, '0x7c33F0841418df52c245B76D5596659F7f7A9638')
