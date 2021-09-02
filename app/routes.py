@@ -26,7 +26,12 @@ class Niftmint:
         )
 
         # INSERT GITHUB ACCESS TOKEN
-        github = Github('')
+        try:
+            github = Github('')
+        except:
+            print('MISSING GITHUB ACCESS TOKEN')
+            return
+
         self.repo = github.get_repo("Niftmint/api")
         print('initialized')
 
