@@ -1,9 +1,9 @@
 from app import app
 import os
 import json
+import urllib
 from web3 import Web3
 from flask import Response, request, jsonify
-from github import Github
 
 class Niftmint:
     def __init__(self, abi_file, sc_address):
@@ -25,16 +25,6 @@ class Niftmint:
             abi=niftmint_abi
         )
 
-        # INSERT GITHUB ACCESS TOKEN
-        try:
-            github = Github('')
-            self.repo = github.get_repo("Niftmint/api")
-        except:
-            print('\nMISSING GITHUB ACCESS TOKEN\n')
-            exit(1)
-
-        print('\ninitialized\n')
-
     def token_name(self):
         if self.name is None:
             self.name = self.contract.functions.name().call()
@@ -51,9 +41,9 @@ class Niftmint:
 
     def metadata(self, id):
         uri = self.contract.functions.tokenURI(int(id)).call()
-        filename = 'metadata/' + id + '.json'
-        metadata = self.repo.get_contents(filename)
-        return metadata.decoded_content.decode()
+        print('URI: ', uri)
+        content = urllib.request.urlopen(uri)
+        return content.read()
 
 @app.route('/token')
 def token():
@@ -100,5 +90,8 @@ def log_after_request(response):
 # :%s/False/false/g
 # :%s/True/true/g
 # save the file
-abi_file = os.path.join(app.root_path, '../abi/niftmint.json')
-niftmint = Niftmint(abi_file, '0x7c33F0841418df52c245B76D5596659F7f7A9638')
+contract = '0x11fb47B8F31c072Ee2E998c75499A0185dB23A5d'
+print('smart contract: ', contract)
+abi = os.path.join(app.root_path, '../abi/niftmint.json')
+print('ABI: ', abi)
+niftmint = Niftmint(abi, contract)

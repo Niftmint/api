@@ -26,17 +26,7 @@ To view logs:
 
     > heroku logs --app niftmint
 
-# VIRTUAL ENVIRONMENT
-## CREATE 
-    > python3 -m venv virtual   [where 'virtual' is folder name of the virtual environment]
-
-## ACTIVATE 
-	> source virtual/bin/activate  [where 'virtual' is the folder of the virtual env]
-
-	DEACTIVATE VIRTUAL 
-	> deactivate
-
-## INSTALL PYTHON MODULES IN VIRTUAL ENVIRONMENT
+# INSTALL PYTHON MODULES
     > pip3 install -r requirements.txt
 
 # RUNNING LOCALLY
