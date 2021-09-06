@@ -3,7 +3,7 @@ import os
 import json
 import urllib
 from web3 import Web3
-from flask import Response, request, jsonify
+import flask
 
 class Niftmint:
     def __init__(self, abi_file, sc_address):
@@ -47,26 +47,30 @@ class Niftmint:
 
 @app.route('/token')
 def token():
-    id = request.args.get('id')
+    id = flask.request.args.get('id')
     if id is None:
-        return jsonify({'exception': 'token ID required'}), 400
-    img = request.args.get('image')
+        return flask.jsonify({'exception': 'token ID required'}), 400
+    img = flask.request.args.get('image')
 
     try:
         content = niftmint.metadata(id)
     except:
-        return jsonify({'exception': 'invalid token ID'}), 400
+        return flask.jsonify({'exception': 'invalid token ID'}), 400
 
     if img is not None:
         c = json.loads(content)
-        return c['image'], 200
+        content = urllib.request.urlopen(c['image'])
+        resp = flask.make_response(content.read())
+        resp.content_type = 'image/png'
+        return resp
+
     return content, 200
 
 @app.route('/index')
 @app.route('/')
 def index():
     id = niftmint.current_id()
-    return jsonify({'current ID': id}), 200
+    return flask.jsonify({'current ID': id}), 200
 
 
 @app.before_request
