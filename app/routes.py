@@ -57,14 +57,17 @@ def token():
     except:
         return flask.jsonify({'exception': 'invalid token ID'}), 400
 
+    c = json.loads(content)
+
     if img is not None:
-        c = json.loads(content)
         content = urllib.request.urlopen(c['image'])
         resp = flask.make_response(content.read())
         resp.content_type = 'image/png'
         return resp
 
-    return content, 200
+    #return content, 200
+    print(c)
+    return flask.render_template('nft.html', nft=c)
 
 @app.route('/index')
 @app.route('/')

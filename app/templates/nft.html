@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport", content="width=device-width, initial-scale=1.0" />
+        <title>
+            {{nft['id']}}
+        </title>
+    </head>
+    <body>
+        <div>
+            <p>
+                <b>NFT: </b> {{nft['name']}}
+            </p>
+        </div>
+        <div>
+            <p>
+                <b>ID: </b> {{nft['id']}}
+            </p>
+        </div>
+        <div>
+            <b>
+                Description:
+            </b>
+        </div>
+        <p>
+            {{nft['description']}}
+        </p>
+        <div align="middle">
+            <img src="{{nft['image']}}" align="middle" width="50%" height="50%">
+        </div>
+    </body>
+</html>
